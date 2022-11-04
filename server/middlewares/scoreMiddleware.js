@@ -8,6 +8,7 @@ import calculateScore from "../utils/calculateScore.js";
 const handleScore = async ({ request, response, state }, next) => {
   // fetch the user's score from the database
   const score = await getScore(state.user.id);
+  const scoreValue = score.amount ? score.amount : 0;
   // calculate the size of the file the user is trying to upload
   const body = request.body({ type: "form-data" });
   const reader = await body.value; // oak FormDataReader
@@ -16,7 +17,7 @@ const handleScore = async ({ request, response, state }, next) => {
   const actionScore = fileDetails.content
     ? calculateScore(fileDetails.content.length)
     : 0;
-  if (score < actionScore) {
+  if (scoreValue < actionScore) {
     response.status = 403;
     response.body = "Not enough score";
     return;
