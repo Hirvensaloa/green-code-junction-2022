@@ -3,7 +3,7 @@
 // if the user has enough score, the middleware will call next() to continue the request
 // if the user does not have enough score, the middleware will return a 403 Forbidden response
 //
-import calculateScore from "./calculateScore.js";
+import calculateScore from "../utils/calculateScore.js";
 
 const handleScore = async ({ request, response, state }, next) => {
   // fetch the user's score from the database
