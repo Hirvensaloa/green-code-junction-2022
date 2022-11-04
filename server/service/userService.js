@@ -1,22 +1,21 @@
-import { executeQuery } from '../database';
+import { executeQuery } from '../database.js';
 
-const registerUser = async (user) => {
-  await executeQuery('INSERT INTO users (name, password) VALUES ($1, $2)', {
+const addUser = async (user) => {
+  await executeQuery('INSERT INTO users (username, password) VALUES ($1, $2)', {
     $1: user.name,
     $2: user.password,
   });
 };
 
-const loginUser = async (user) => {
+const getUser = async (username) => {
   const response = await executeQuery(
-    'SELECT * FROM users WHERE name = $1 AND password = $2',
+    'SELECT * FROM users WHERE username = $1',
     {
-      $1: user.name,
-      $2: user.password,
+      $1: username,
     }
   );
 
-  return response.rows;
+  return response.rows[0];
 };
 
-export { registerUser, loginUser };
+export { addUser, getUser };

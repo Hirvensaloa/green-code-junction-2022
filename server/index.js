@@ -1,9 +1,13 @@
-import { serve } from 'https://deno.land/std@0.140.0/http/server.ts';
+import { authMiddleware } from './middlewares/authMiddleware.js';
+import { router } from './routes/routes.js';
 
-const handleRequest = (request) => {
-  console.log(`Request to ${request.url}`);
-  return new Response('Hello world!');
-};
+const app = new Application();
+app.use(Session.initMiddleware());
 
-console.log('Launching server on port 7777');
-serve(handleRequest, { port: 7777 });
+app.use(errorMiddleware);
+app.use(authMiddleware);
+app.use(serveStaticMiddleware);
+app.use(renderMiddleware);
+app.use(router.routes());
+
+app.listen({ port: 7777 });
