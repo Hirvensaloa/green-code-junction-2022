@@ -15,7 +15,6 @@ services:
     restart: 'no'
     volumes:
       - ./server/:/server
-      - ./server-cache/:/server-cache
     ports:
       - 7777:7777
     depends_on:

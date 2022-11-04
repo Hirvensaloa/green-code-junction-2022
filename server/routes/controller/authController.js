@@ -1,11 +1,12 @@
-export * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.1/mod.ts';
-import { addUser, getUser } from '../../service/userService';
+import * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.1/mod.ts';
+import { addUser, getUser } from '../../service/userService.js';
 
 const processLogin = async ({ request, response, state }) => {
   const body = request.body({ type: 'form' });
   const params = await body.value;
 
   const user = await getUser(params.get('username'));
+  console.log(user);
   if (!user) {
     response.status = 401;
     return;
@@ -22,7 +23,7 @@ const processLogin = async ({ request, response, state }) => {
   }
 
   await state.session.set('user', user);
-  response.redirect('/');
+  response.status = 204;
 };
 
 const registerUser = async ({ request, response }) => {
