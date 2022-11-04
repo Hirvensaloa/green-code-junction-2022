@@ -25,3 +25,10 @@ CREATE TABLE text_post (
   user_id uuid REFERENCES users(id) ON DELETE CASCADE,
   like_amount INT NOT NULL DEFAULT 0
 );
+
+CREATE TABLE energy_bar (
+  user_id uuid REFERENCES users(id) ON DELETE CASCADE,
+  amount INT NOT NULL DEFAULT 1000,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
