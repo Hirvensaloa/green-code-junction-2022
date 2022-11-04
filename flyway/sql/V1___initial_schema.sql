@@ -1,8 +1,7 @@
 CREATE TABLE users (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -24,4 +23,11 @@ CREATE TABLE text_post (
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   user_id uuid REFERENCES users(id) ON DELETE CASCADE,
   like_amount INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE energy_bar (
+  user_id uuid REFERENCES users(id) ON DELETE CASCADE,
+  amount INT NOT NULL DEFAULT 1000,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );

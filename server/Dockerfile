@@ -4,4 +4,4 @@ EXPOSE 7777
 
 WORKDIR /server
 
-CMD [ "run", "--unstable", "--watch", "--allow-net", "--allow-read", "--allow-write", "--allow-env", "--no-check", "index.ts" ]
+CMD [ "run", "--unstable", "--watch", "--allow-net", "--allow-read", "--allow-write", "--allow-env", "--no-check", "index.js" ]
