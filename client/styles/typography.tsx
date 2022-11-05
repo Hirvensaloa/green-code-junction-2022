@@ -18,7 +18,7 @@ export const textBase = css<{ $dark?: boolean }>`
 export const Text = styled.p`
   ${textBase}
   font-size: 1rem;
-  line-height: 1rem;
+  line-height: 1.25rem;
 `;
 
 export const TextStrong = styled(Text)`

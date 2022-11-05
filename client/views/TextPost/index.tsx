@@ -5,12 +5,30 @@ import { Button } from "../../components/Button";
 import { theme } from "../../styles/theme";
 import { EnergyIcon } from "../../components/EnergyIcon";
 import { Input } from "../../components/Input";
-import { Heading3 } from "../../styles/typography";
+import { Heading3, Text } from "../../styles/typography";
 
 const Card = styled.div`
   border-radius: 1rem;
   padding: 1rem;
   background-color: ${theme.background.secondary};
+`;
+
+const InfoCard = styled.div`
+  display: flex;
+  align-items: center;
+  border-radius: 1rem;
+  padding: 1rem;
+  background-color: ${theme.accent.energyYellow}33;
+
+  > :first-child {
+    margin-right: 1rem;
+  }
+`;
+
+const Container = styled.section`
+  > :not(:last-child) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const SubmitButton = styled(Button)`
@@ -27,19 +45,22 @@ const ButtonText = styled(Heading3)``;
 
 export const TextPost = () => {
   return (
-    <Card>
-      <form>
-        <Input type="text" placeholder="What's on your mind?" />
-        <SubmitButton type="submit">
-          <ButtonText $dark={true}>Post</ButtonText>
-          <Image
-            src="/energy_black.svg"
-            alt="energy_black"
-            width="16"
-            height="24"
-          />
-        </SubmitButton>
-      </form>
-    </Card>
+    <Container>
+      <InfoCard>
+        <EnergyIcon type="flat" w={24} h={32} />
+        <Text>
+          Text posts are by far the most energy efficient type of content!
+        </Text>
+      </InfoCard>
+      <Card>
+        <form>
+          <Input type="text" placeholder="What's on your mind?" />
+          <SubmitButton type="submit">
+            <ButtonText $dark={true}>Post</ButtonText>
+            <EnergyIcon type="black" />
+          </SubmitButton>
+        </form>
+      </Card>
+    </Container>
   );
 };
