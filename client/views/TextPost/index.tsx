@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styled from "styled-components";
 
 import { Button } from "../../components/Button";
@@ -6,6 +5,8 @@ import { theme } from "../../styles/theme";
 import { EnergyIcon } from "../../components/EnergyIcon";
 import { MultilineInput } from "../../components/Input";
 import { Heading3, Text } from "../../styles/typography";
+import { useActiveContent } from "../../hooks/useActiveContent";
+import { useEnergy } from "../../hooks/useEnergy";
 
 const Card = styled.div`
   border-radius: 1rem;
@@ -49,6 +50,15 @@ const SubmitButton = styled(Button)`
 const ButtonText = styled(Heading3)``;
 
 export const TextPost = () => {
+  const { decreaseEnergy } = useEnergy();
+  const { setDefaultContent } = useActiveContent();
+
+  const handleSubmit = (e: SubmitEvent) => {
+    e.preventDefault();
+    decreaseEnergy(100);
+    setDefaultContent();
+  };
+
   return (
     <Container>
       <InfoCard>
@@ -58,7 +68,7 @@ export const TextPost = () => {
         </Text>
       </InfoCard>
       <Card>
-        <form>
+        <form onSubmit={handleSubmit}>
           <StyledInput type="text" placeholder="What's on your mind?" />
           <SubmitButton type="submit">
             <ButtonText $dark={true}>Post</ButtonText>
