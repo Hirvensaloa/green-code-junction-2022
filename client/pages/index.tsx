@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { theme } from "../styles/theme";
 import { activeContentState } from "../recoil";
 import { CreateContentOpener } from "../components/CreateContent";
+import { EnergyBar } from "../components/EnergyBar";
 
 const Body = styled.main`
   position: relative;
@@ -15,22 +16,6 @@ const Body = styled.main`
   color: ${theme.foreground.primary};
   background-color: ${theme.background.primary};
 `;
-
-const EnergyBarContainer = styled.div`
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 2rem 1rem 1.5rem 1rem;
-  background-color: ${theme.background.primary};
-`;
-
-const EnergyBar = styled.div`
-  height: 2rem;
-  border-radius: 1rem;
-  background-color: ${theme.background.secondary};
-`;
-
 export default function Home() {
   const activeContent = useRecoilValue(activeContentState);
   return (
@@ -44,9 +29,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Body>
-        <EnergyBarContainer>
-          <EnergyBar />
-        </EnergyBarContainer>
+        <EnergyBar />
         {activeContent}
         <CreateContentOpener />
       </Body>

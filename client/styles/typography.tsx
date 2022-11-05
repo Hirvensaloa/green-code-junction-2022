@@ -5,7 +5,7 @@ export const headingBase = css<{ $dark?: boolean }>`
   all: unset;
   color: ${(p) =>
     p.$dark ? theme.background.primary : theme.foreground.primary};
-  font-family: "Lilita One", sans-serif;
+  font-family: "Lato", sans-serif;
 `;
 
 export const textBase = css<{ $dark?: boolean }>`
@@ -33,6 +33,7 @@ export const SmallText = styled.p`
 
 export const ButtonText = styled(Text)`
   ${headingBase}
+  font-family: "Lilita One", sans-serif;
 `;
 
 export const Heading1 = styled.h1`

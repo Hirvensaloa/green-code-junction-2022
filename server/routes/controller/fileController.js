@@ -1,13 +1,15 @@
-import { addAttachment, listAttachments } from '../../service/uploadService.js';
+import { addAttachment } from '../../service/uploadService.js';
 
 const uploadFile = async ({ request, response, user }) => {
-  const body = request.body({ type: 'form' });
-  const params = await body.value;
-  const name = params.get('name');
-  const contentType = params.get('contentType');
-  const title = params.get('title');
+  const body = request.body({ type: 'form-data' });
+  const reader = await body.value;
+  const data = await reader.read();
 
-  const id = await addAttachment(title, name, user.id);
+  const { name, title, contentType } = data.fields;
+
+  const type = contentType.split('/')[0];
+
+  const id = await addAttachment(title, name, user.id, type);
 
   // Fetch signed url from storage service
   const res = await fetch('http://storage:6000/file', {
@@ -26,21 +28,4 @@ const uploadFile = async ({ request, response, user }) => {
   response.body = { url };
 };
 
-const getFiles = async ({ response }) => {
-  const files = await listAttachments();
-
-  console.log(files);
-
-  const promises = files.map((file) =>
-    fetch(`http://storage:6000/file/${file.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  );
-
-  const urls = await Promise.all(promises);
-  response.body = urls;
-};
-export { uploadFile, getFiles };
+export { uploadFile };
