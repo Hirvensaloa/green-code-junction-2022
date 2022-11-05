@@ -1,12 +1,13 @@
 import { executeQuery } from '../database/index.js';
 
-const addAttachment = async (title, name, userId) => {
+const addAttachment = async (title, name, userId, type) => {
   const res = await executeQuery(
-    'INSERT INTO attachment (title, name, path, user_id) VALUES ($title, $name, $name, $userId) RETURNING id',
+    'INSERT INTO attachment (title, name, path, user_id, attachment_type) VALUES ($title, $name, $name, $userId, $type) RETURNING id',
     {
       title,
       name,
       userId,
+      type,
     }
   );
 
@@ -14,7 +15,9 @@ const addAttachment = async (title, name, userId) => {
 };
 
 const listAttachments = async () => {
-  const res = await executeQuery('SELECT * FROM attachment');
+  const res = await executeQuery(
+    'SELECT * FROM attachment ORDER BY created_at DESC'
+  );
 
   return res.rows;
 };

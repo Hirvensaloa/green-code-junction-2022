@@ -6,6 +6,15 @@ const storage = new Storage({
 });
 const bucket = storage.bucket('green-code-bucket');
 
+bucket.setCorsConfiguration([
+  {
+    maxAgeSeconds: 3600,
+    method: ['GET', 'POST', 'PUT', 'DELETE', 'HEAD'],
+    responseHeader: ['Access-Control-Allow-Origin', 'Content-Type'],
+    origin: ['*'],
+  },
+]);
+
 async function generateReadSignedUrl(filename) {
   const options = {
     version: 'v4',

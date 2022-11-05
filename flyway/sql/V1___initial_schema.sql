@@ -6,7 +6,7 @@ CREATE TABLE users (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO users (username, password) VALUES ('admin', 'admin');
+INSERT INTO users (id, username, password) VALUES ('c5443fae-3a22-4dbb-82f0-136b8f277435', 'admin', 'admin');
 
 CREATE TABLE attachment (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -15,7 +15,8 @@ CREATE TABLE attachment (
     path VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     user_id uuid REFERENCES users(id) ON DELETE CASCADE,
-    like_amount INT NOT NULL DEFAULT 0
+    score INT NOT NULL DEFAULT 0,
+    attachment_type VARCHAR(255) NOT NULL 
 );
 
 CREATE TABLE text_post (
@@ -24,7 +25,7 @@ CREATE TABLE text_post (
   content TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   user_id uuid REFERENCES users(id) ON DELETE CASCADE,
-  like_amount INT NOT NULL DEFAULT 0
+  score INT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE energy_bar (

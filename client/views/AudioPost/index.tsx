@@ -45,7 +45,7 @@ const SubmitButton = styled(Button)`
 
 const ButtonText = styled(Heading3)``;
 
-export const ImagePost = () => {
+export const AudioPost = () => {
   const { title, setTitle, file, setFile, loading, error, uploadFile } =
     useUploadFile();
 
@@ -53,15 +53,10 @@ export const ImagePost = () => {
     <Container>
       <InfoCard>
         <EnergyIcon type='flat' w={24} h={32} />
-        <EnergyIcon type='flat' w={24} h={32} />
-        <EnergyIcon type='flat' w={24} h={32} />
-        <Text>
-          Images tell a thousand words, but they cost a lot of energy compared
-          to text!
-        </Text>
+        <Text>After text, audio is the most energy efficient!</Text>
       </InfoCard>
       <Card>
-        <FilePicker setFile={setFile} types={['png', 'jpeg', 'jpg', 'svg']} />
+        <FilePicker setFile={setFile} types={['mp3']} />
         <Input
           type='text'
           value={title}

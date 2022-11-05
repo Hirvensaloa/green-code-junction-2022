@@ -50,7 +50,9 @@ const addPost = async (title, content, userId) => {
 };
 
 const listPosts = async () => {
-  const response = await executeQuery('SELECT * FROM text_post', { id });
+  const response = await executeQuery(
+    'SELECT * FROM text_post ORDER BY created_at DESC'
+  );
 
   return response.rows;
 };
