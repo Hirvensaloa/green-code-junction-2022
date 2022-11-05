@@ -7,8 +7,8 @@ const {
 const app = express();
 app.use(express.json());
 
-app.get('/file', async (req, res) => {
-  const { name } = req.body;
+app.get('/file/:name', async (req, res) => {
+  const { name } = req.params;
   const url = await generateReadSignedUrl(name);
   res.json({ url });
   res.status = 200;

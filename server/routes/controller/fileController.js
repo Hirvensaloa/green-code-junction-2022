@@ -1,19 +1,11 @@
-import {
-  addAttachment,
-  deleteAttachment,
-} from '../../service/uploadService.js';
-import { readableStreamFromReader } from 'https://deno.land/std/streams/conversion.ts';
+import { addAttachment, listAttachments } from '../../service/uploadService.js';
 
 const uploadFile = async ({ request, response, user }) => {
-  const body = request.body({ type: 'form-data' });
-  const form = await body.value;
-  const data = await form.read();
-  const file = data.files[0];
-  const title = data.fields.title;
-  const name = data.fields.name;
-  const contentType = file.contentType;
-
-  console.log(file);
+  const body = request.body({ type: 'form' });
+  const params = await body.value;
+  const name = params.get('name');
+  const contentType = params.get('contentType');
+  const title = params.get('title');
 
   const id = await addAttachment(title, name, user.id);
 
@@ -30,28 +22,25 @@ const uploadFile = async ({ request, response, user }) => {
   });
 
   const { url } = await res.json();
-  if (url.length === 0) {
-    await deleteAttachment(id);
-    response.status = 500;
-    return;
-  }
 
-  const size = (await Deno.stat(file.filename)).size;
-  const f = await Deno.open(file.filename, { read: true });
-  const content = await Deno.readAll(f);
-  console.log(content);
-  console.log(file, url[0]);
-  const blob = new Blob(content);
-  const res1 = await fetch(url[0], {
-    method: 'PUT',
-    headers: {
-      'Content-Type': contentType,
-      'Content-Length': size,
-    },
-    file: blob,
-  });
-
-  response.status = res1.status;
+  response.body = { url };
 };
 
-export { uploadFile };
+const getFiles = async ({ response }) => {
+  const files = await listAttachments();
+
+  console.log(files);
+
+  const promises = files.map((file) =>
+    fetch(`http://storage:6000/file/${file.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  );
+
+  const urls = await Promise.all(promises);
+  response.body = urls;
+};
+export { uploadFile, getFiles };
