@@ -33,6 +33,5 @@ export const ContentList = () => (
         </Card>
       ))}
     </StyledContentList>
-    <CreateContentOpener />
   </>
 );
