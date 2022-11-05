@@ -23,6 +23,7 @@ const handleScore = async ({ request, response, state }, next) => {
     return;
   } else {
     updateScore(state.user.id, scoreValue - actionScore);
+    response.headers.set("energy", scoreValue - actionScore);
     await next();
   }
 };
