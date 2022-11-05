@@ -30,6 +30,7 @@ dd {
 html,
 body {
   height: 100%;
+  background-color: #1e1e1e;
 }
 
 html {
