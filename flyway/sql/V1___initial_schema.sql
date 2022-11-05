@@ -6,6 +6,8 @@ CREATE TABLE users (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+INSERT INTO users (username, password) VALUES ('admin', 'admin');
+
 CREATE TABLE attachment (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     title VARCHAR(255) NOT NULL,

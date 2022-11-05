@@ -1,4 +1,4 @@
-import { getPost, listPosts } from '../../service/postService.js';
+import { addPost, getPost, listPosts } from '../../service/postService.js';
 
 const fetchPost = async ({ response, params }) => {
   const post = getPost(params.id);
@@ -12,4 +12,20 @@ const fetchPostList = async ({ response }) => {
   response.body = postList;
 };
 
-export { fetchPost, fetchPostList };
+const uploadPost = async ({ request, response, user }) => {
+  const body = request.body({ type: 'form' });
+  const params = await body.value;
+
+  const title = params.get('title');
+  const content = params.get('content');
+
+  if (title && content) {
+    await addPost(title, content, user.id);
+
+    response.redirect('/');
+  } else {
+    response.status = 400;
+  }
+};
+
+export { fetchPost, fetchPostList, uploadPost };
