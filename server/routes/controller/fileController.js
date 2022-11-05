@@ -1,5 +1,20 @@
-import { Storage } from 'https://googleapis.deno.dev/v1/storage:v1.ts';
-import { GoogleAuth } from 'https://googleapis.deno.dev/v1/storage:v1.ts';
+import {
+  GoogleAuth,
+  Storage,
+} from 'https://googleapis.deno.dev/v1/storage:v1.ts';
+
+const serviceAccount = JSON.parse(
+  await Deno.readTextFile(`${Deno.cwd()}/serviceaccount.json`)
+);
+
+const client = await new GoogleAuth().getApplicationDefault();
+
+// Upload file to Google Cloud Storage
+const storage = new Storage(client.credential);
+
+console.log(storage);
+
+const bucket = await storage.bucketsGet('green-code-bucket');
 
 const uploadFile = async ({ request, response }) => {
   const body = request.body({ type: 'form-data' });
@@ -7,18 +22,24 @@ const uploadFile = async ({ request, response }) => {
   const data = await reader.read();
   const fileDetails = data.files[0];
 
-  const client = new GoogleAuth().fromJSON('serviceaccount.json');
+  // Read serviceaccount.json file to object
+  const serviceAccount = JSON.parse(
+    await Deno.readTextFile(`${Deno.cwd()}/serviceaccount.json`)
+  );
+
+  const client = await new GoogleAuth().getApplicationDefault();
   console.log(client);
 
   // Upload file to Google Cloud Storage
   const storage = new Storage({
     client,
-    baseUrl: 'https://storage.googleapis.com',
   });
 
   console.log(storage);
 
-  const bucket = storage.bucket('my-bucket-name');
+  const bucket = await storage.bucketsGet('green-code-bucket');
+
+  console.log(bucket);
 
   // Uploads a local file to the bucket
   await bucket.upload(filePath, {
