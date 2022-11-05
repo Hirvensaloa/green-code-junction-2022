@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 
 import { theme } from "../styles/theme";
 import { activeContentState } from "../recoil";
+import { CreateContentOpener } from "../components/CreateContent";
 
 const Body = styled.main`
   position: relative;
@@ -47,6 +48,7 @@ export default function Home() {
           <EnergyBar />
         </EnergyBarContainer>
         {activeContent}
+        <CreateContentOpener />
       </Body>
     </>
   );

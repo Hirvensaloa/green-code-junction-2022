@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Button } from "../../components/Button";
 import { theme } from "../../styles/theme";
 import { EnergyIcon } from "../../components/EnergyIcon";
-import { Input } from "../../components/Input";
+import { MultilineInput } from "../../components/Input";
 import { Heading3, Text } from "../../styles/typography";
 
 const Card = styled.div`
@@ -31,6 +31,11 @@ const Container = styled.section`
   }
 `;
 
+const StyledInput = styled(MultilineInput)`
+  width: 100%;
+  height: 40vh;
+`;
+
 const SubmitButton = styled(Button)`
   margin-left: auto;
   display: flex;
@@ -54,7 +59,7 @@ export const TextPost = () => {
       </InfoCard>
       <Card>
         <form>
-          <Input type="text" placeholder="What's on your mind?" />
+          <StyledInput type="text" placeholder="What's on your mind?" />
           <SubmitButton type="submit">
             <ButtonText $dark={true}>Post</ButtonText>
             <EnergyIcon type="black" />
