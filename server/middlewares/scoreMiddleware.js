@@ -5,25 +5,32 @@
 //
 import calculateScore from "../utils/calculateScore.js";
 
-const handleScore = async ({ request, response, state }, next) => {
+const scoreMiddleware = async ({ request, response, state }, next) => {
+  // if user is trying to log in or register, continue the request
+  if (
+    request.url.pathname === "/login" ||
+    request.url.pathname === "/register"
+  ) {
+    await next();
+    return;
+  }
   // fetch the user's score from the database
   const score = await getScore(state.user.id);
   const scoreValue = score.amount ? score.amount : 0;
   // calculate the size of the file the user is trying to upload
-  const body = request.body({ type: "form-data" });
-  const reader = await body.value; // oak FormDataReader
-  const data = await reader.read(); // oak FormDataBody
-  const fileDetails = data.files[0];
-  const actionScore = fileDetails.content
-    ? calculateScore(fileDetails.content.length)
-    : 0;
+  const actionScore = request.headers.score
+    ? Number(request.headers.score)
+    : 1000;
   if (scoreValue < actionScore) {
     response.status = 403;
     response.body = "Not enough score";
     return;
   } else {
-    updateScore(state.user.id, scoreValue - actionScore);
-    response.headers.set("energy", scoreValue - actionScore);
+    const newScore = scoreValue - actionScore;
+    updateScore(state.user.id, newScore);
+    response.headers.set("energy", newScore);
     await next();
   }
 };
+
+export { scoreMiddleware };
