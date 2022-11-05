@@ -1,26 +1,65 @@
+import { theme } from "../../styles/theme";
 import styled from "styled-components";
 import Image from "next/image";
+import { FC, useState } from "react";
 
-const StyledUpVote = styled.button`
+const Button = styled.button`
   all: unset;
-  cursor: pointer;
 `;
 
-const StyledDownVote = styled.button``;
+interface objectScore {
+  score: number;
+  setVote: (score: number) => void;
+}
 
-const UpVoteButton = () => {
+const ButtonHolderStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  width: 10%;
+`;
+
+const StyledUpVote = styled(Button)<{ vote: number }>`
+  position: relative;
+  ${(p) => p.vote > 0 && `filter: invert(1);`}
+`;
+
+const StyledDownVote = styled(Button)<{ vote: number }>`
+  position: relative;
+  ${(p) => p.vote < 0 && `filter: invert(1);`}
+`;
+
+const ButtonHolder = () => {
+  const [score, setScore] = useState(0);
   return (
-    <StyledUpVote>
-      <Image src="/upvote.svg" alt="upvote" width="16" height="16" />
+    <ButtonHolderStyle>
+      <UpVoteButton score={score} setVote={setScore} />
+      <DownVoteButton score={score} setVote={setScore} />
+    </ButtonHolderStyle>
+  );
+};
+
+const UpVoteButton: FC<objectScore> = ({ score, setVote }) => {
+  return (
+    <StyledUpVote
+      vote={score}
+      onClick={() => (score < 1 ? setVote(1) : setVote(0))}
+    >
+      <Image src="/upvote.svg" alt="upvote" width="32" height="32" />
     </StyledUpVote>
   );
 };
 
-const DownVoteButton = () => {
+const DownVoteButton: FC<objectScore> = ({ score, setVote }) => {
   return (
-    <StyledDownVote>
-      <Image src="/downvote.svg" alt="downvote" width="16" height="16" />
+    <StyledDownVote
+      vote={score}
+      onClick={() => (score > -1 ? setVote(-1) : setVote(0))}
+    >
+      <Image src="/downvote.svg" alt="downvote" width="32" height="32" />
     </StyledDownVote>
   );
 };
-export { UpVoteButton, DownVoteButton };
+export { ButtonHolder, UpVoteButton, DownVoteButton, Button };

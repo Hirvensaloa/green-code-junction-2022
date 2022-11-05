@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { CreateContentOpener } from "../../components/CreateContent";
 
+import { ButtonHolder } from "../../components/Button";
 import { theme } from "../../styles/theme";
 import { Text } from "../../styles/typography";
 
@@ -30,6 +31,7 @@ export const ContentList = () => (
             pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
             culpa qui officia deserunt mollit anim id est laborum.
           </Text>
+          <ButtonHolder />
         </Card>
       ))}
     </StyledContentList>
