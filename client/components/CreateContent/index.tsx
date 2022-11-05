@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
 
-import { EnergyCost } from "../EnergyCost";
+import { EnergyCostIndicator } from "../EnergyCostIndicator";
 import { Button } from "../Button";
 import { theme } from "../../styles/theme";
 
@@ -11,25 +11,25 @@ const contentActions = [
     contentType: "text",
     action: () => {},
     icon: <Image src="/text.svg" alt="text" width="16" height="16" />,
-    cost: "x",
+    cost: 1,
   },
   {
     contentType: "image",
     action: () => {},
     icon: <Image src="/image.svg" alt="image" width="16" height="16" />,
-    cost: "x",
+    cost: 2,
   },
   {
     contentType: "video",
     action: () => {},
     icon: <Image src="/image.svg" alt="image" width="16" height="16" />,
-    cost: "x",
+    cost: 4,
   },
   {
     contentType: "sound",
     action: () => {},
     icon: <Image src="/image.svg" alt="image" width="16" height="16" />,
-    cost: "x",
+    cost: 2,
   },
 ];
 
@@ -66,13 +66,6 @@ const ContentButton = styled(BaseContentButton)`
   padding: 1rem;
 `;
 
-const StyledCost = styled(EnergyCost)`
-  position: absolute;
-  z-index: 11;
-  top: -0.25rem;
-  right: -0.25rem;
-`;
-
 export const CreateContentOpener = () => {
   const [contentMenuOpen, setContentMenuOpen] = useState(false);
   return (
@@ -88,7 +81,7 @@ export const CreateContentOpener = () => {
           {contentActions.map(({ contentType, action, icon, cost }) => (
             <ContentButton key={contentType} onClick={action}>
               {icon}
-              <StyledCost cost={cost} />
+              <EnergyCostIndicator amount={cost} />
             </ContentButton>
           ))}
         </>
