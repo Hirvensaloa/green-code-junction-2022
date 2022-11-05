@@ -22,13 +22,13 @@ const contentActions = [
   {
     contentType: "video",
     action: () => {},
-    icon: <Image src="/image.svg" alt="image" width="16" height="16" />,
+    icon: <Image src="/video.svg" alt="video" width="16" height="16" />,
     cost: 4,
   },
   {
     contentType: "sound",
     action: () => {},
-    icon: <Image src="/image.svg" alt="image" width="16" height="16" />,
+    icon: <Image src="/sound.svg" alt="sound" width="16" height="16" />,
     cost: 2,
   },
 ];

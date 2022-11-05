@@ -24,8 +24,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="14.7554"
-     inkscape:cx="8.5731328"
-     inkscape:cy="16.061917"
+     inkscape:cx="8.7086761"
+     inkscape:cy="16.061916"
      inkscape:window-width="1792"
      inkscape:window-height="1053"
      inkscape:window-x="0"
@@ -43,7 +43,7 @@
      transform="translate(-60.731845,-68.433726)">
     <path
        id="rect176"
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.195675;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#1e1e1e;fill-opacity:1;stroke:none;stroke-width:0.195675;stroke-dasharray:none;stroke-opacity:1"
        d="m 64.965209,68.433726 c -0.447397,0 -0.807603,0.375818 -0.807603,0.84265 v 2.548064 h -2.583111 c -0.466832,0 -0.84265,0.375818 -0.84265,0.84265 0,0.466831 0.375818,0.84265 0.84265,0.84265 h 2.583111 v 2.548002 c 0,0.466833 0.360206,0.842651 0.807603,0.842651 0.447397,0 0.807542,-0.375818 0.807542,-0.842651 V 73.50974 h 2.58311 c 0.466833,0 0.842651,-0.375819 0.842651,-0.84265 0,-0.466832 -0.375818,-0.84265 -0.842651,-0.84265 h -2.58311 v -2.548064 c 0,-0.466832 -0.360145,-0.84265 -0.807542,-0.84265 z" />
   </g>
 </svg>
