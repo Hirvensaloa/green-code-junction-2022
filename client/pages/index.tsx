@@ -1,9 +1,11 @@
 import Head from "next/head";
 import styled from "styled-components";
+import { CreateContentOpener } from "../components/CreateContent";
 
 import { theme } from "../styles/theme";
 
 const Body = styled.main`
+  position: relative;
   height: 100%;
   color: ${theme.foreground.primary};
   background-color: ${theme.background.primary};
@@ -38,6 +40,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Body>
+        <CreateContentOpener />
         <Content>
           <CardList>
             {[1, 2, 3, 4].map((i) => (
