@@ -9,5 +9,6 @@ export const theme = {
   },
   accent: {
     electricBlue: "#7DF9FF",
+    energyYellow: "#ffea44",
   },
 };
