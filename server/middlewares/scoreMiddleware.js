@@ -22,6 +22,7 @@ const handleScore = async ({ request, response, state }, next) => {
     response.body = "Not enough score";
     return;
   } else {
+    updateScore(state.user.id, scoreValue - actionScore);
     await next();
   }
 };

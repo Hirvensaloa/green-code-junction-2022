@@ -12,4 +12,8 @@ const getScore = async (userId) => {
   return user.score;
 };
 
-export { calculateScore, getScore };
+const updateScore = async (userId, score) => {
+  await updateUserScore(userId, score);
+};
+
+export { calculateScore, getScore, updateScore };
