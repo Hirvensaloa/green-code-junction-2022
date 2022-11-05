@@ -1,56 +1,57 @@
 import {
-  GoogleAuth,
-  Storage,
-} from 'https://googleapis.deno.dev/v1/storage:v1.ts';
+  addAttachment,
+  deleteAttachment,
+} from '../../service/uploadService.js';
+import { readableStreamFromReader } from 'https://deno.land/std/streams/conversion.ts';
 
-const serviceAccount = JSON.parse(
-  await Deno.readTextFile(`${Deno.cwd()}/serviceaccount.json`)
-);
-
-const client = await new GoogleAuth().getApplicationDefault();
-
-// Upload file to Google Cloud Storage
-const storage = new Storage(client.credential);
-
-console.log(storage);
-
-const bucket = await storage.bucketsGet('green-code-bucket');
-
-const uploadFile = async ({ request, response }) => {
+const uploadFile = async ({ request, response, user }) => {
   const body = request.body({ type: 'form-data' });
-  const reader = await body.value;
-  const data = await reader.read();
-  const fileDetails = data.files[0];
+  const form = await body.value;
+  const data = await form.read();
+  const file = data.files[0];
+  const title = data.fields.title;
+  const name = data.fields.name;
+  const contentType = file.contentType;
 
-  // Read serviceaccount.json file to object
-  const serviceAccount = JSON.parse(
-    await Deno.readTextFile(`${Deno.cwd()}/serviceaccount.json`)
-  );
+  console.log(file);
 
-  const client = await new GoogleAuth().getApplicationDefault();
-  console.log(client);
+  const id = await addAttachment(title, name, user.id);
 
-  // Upload file to Google Cloud Storage
-  const storage = new Storage({
-    client,
-  });
-
-  console.log(storage);
-
-  const bucket = await storage.bucketsGet('green-code-bucket');
-
-  console.log(bucket);
-
-  // Uploads a local file to the bucket
-  await bucket.upload(filePath, {
-    gzip: true,
-    metadata: {
-      cacheControl: 'public, max-age=31536000',
+  // Fetch signed url from storage service
+  const res = await fetch('http://storage:6000/file', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({
+      name: id,
+      contentType,
+    }),
   });
 
-  response.body = { success: true };
-  response.status = 200;
+  const { url } = await res.json();
+  if (url.length === 0) {
+    await deleteAttachment(id);
+    response.status = 500;
+    return;
+  }
+
+  const size = (await Deno.stat(file.filename)).size;
+  const f = await Deno.open(file.filename, { read: true });
+  const content = await Deno.readAll(f);
+  console.log(content);
+  console.log(file, url[0]);
+  const blob = new Blob(content);
+  const res1 = await fetch(url[0], {
+    method: 'PUT',
+    headers: {
+      'Content-Type': contentType,
+      'Content-Length': size,
+    },
+    file: blob,
+  });
+
+  response.status = res1.status;
 };
 
 export { uploadFile };

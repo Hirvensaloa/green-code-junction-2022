@@ -23,6 +23,14 @@ services:
     env_file:
       - project.env
 
+  storage:
+    build: storage
+    image: storage
+    volumes:
+      - ./storage/:/storage
+    ports:
+      - 6000:6000
+
   database:
     container_name: database-server
     image: postgres:14.1

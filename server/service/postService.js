@@ -36,10 +36,23 @@ const getPost = async (id) => {
   return response.rows[0];
 };
 
+const addPost = async (title, content, userId) => {
+  const response = await executeQuery(
+    'INSERT INTO text_post (title, content, user_id) VALUES ($title, $content, $userId) RETURNING id',
+    {
+      title,
+      content,
+      userId,
+    }
+  );
+
+  return response.rows[0].id;
+};
+
 const listPosts = async () => {
   const response = await executeQuery('SELECT * FROM text_post', { id });
 
   return response.rows;
 };
 
-export { likeAttachment, likePost, getPost, listPosts };
+export { likeAttachment, likePost, getPost, listPosts, addPost };
