@@ -28,11 +28,24 @@ const StyledInput = styled.input`
   border: 1px solid ${theme.background.primary};
 `;
 
+// create a styled button to be used in the form
+const StyledButton = styled.button`
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  align-self: center;
+  margin: 0rem;
+  max-width: 50%;
+  border: 1px solid ${theme.background.primary};
+  background-color: ${theme.accent.electricBlue};
+  color: ${theme.foreground.primary};
+`;
+
 export const LoginWindow = () => {
   return (
     <StyledForm>
       <StyledInput type="text" placeholder="Username" />
       <StyledInput type="password" placeholder="Password" />
+      <StyledButton type="submit">Login</StyledButton>
     </StyledForm>
   );
 };
