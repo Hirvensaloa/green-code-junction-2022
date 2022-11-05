@@ -5,29 +5,32 @@ import styled from "styled-components";
 import { EnergyCostIndicator } from "../EnergyCostIndicator";
 import { Button } from "../Button";
 import { theme } from "../../styles/theme";
+import { TextPost } from "../../views/TextPost";
+import { useSetRecoilState } from "recoil";
+import { activeContentState } from "../../recoil";
 
 const contentActions = [
   {
     contentType: "text",
-    action: () => {},
+    contentView: TextPost,
     icon: <Image src="/text.svg" alt="text" width="16" height="16" />,
     cost: 1,
   },
   {
     contentType: "image",
-    action: () => {},
+    contentView: TextPost,
     icon: <Image src="/image.svg" alt="image" width="16" height="16" />,
     cost: 2,
   },
   {
     contentType: "video",
-    action: () => {},
+    contentView: TextPost,
     icon: <Image src="/video.svg" alt="video" width="16" height="16" />,
     cost: 4,
   },
   {
     contentType: "sound",
-    action: () => {},
+    contentView: TextPost,
     icon: <Image src="/sound.svg" alt="sound" width="16" height="16" />,
     cost: 2,
   },
@@ -68,6 +71,7 @@ const ContentButton = styled(BaseContentButton)`
 
 export const CreateContentOpener = () => {
   const [contentMenuOpen, setContentMenuOpen] = useState(false);
+  const setActiveContent = useSetRecoilState(activeContentState);
   return (
     <ContentMenu>
       <MenuOpenerButton
@@ -78,8 +82,11 @@ export const CreateContentOpener = () => {
       </MenuOpenerButton>
       {contentMenuOpen && (
         <>
-          {contentActions.map(({ contentType, action, icon, cost }) => (
-            <ContentButton key={contentType} onClick={action}>
+          {contentActions.map(({ contentType, contentView, icon, cost }) => (
+            <ContentButton
+              key={contentType}
+              onClick={() => setActiveContent(contentView)}
+            >
               {icon}
               <EnergyCostIndicator amount={cost} />
             </ContentButton>
