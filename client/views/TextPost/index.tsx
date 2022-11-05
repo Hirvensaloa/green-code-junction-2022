@@ -1,12 +1,12 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { Button } from "../../components/Button";
-import { theme } from "../../styles/theme";
-import { EnergyIcon } from "../../components/EnergyIcon";
-import { MultilineInput, Input } from "../../components/Input";
-import { Heading3, headingBase, Text } from "../../styles/typography";
-import { useActiveContent } from "../../hooks/useActiveContent";
-import { useEnergy } from "../../hooks/useEnergy";
+import { Button } from '../../components/Button';
+import { theme } from '../../styles/theme';
+import { EnergyIcon } from '../../components/EnergyIcon';
+import { MultilineInput, Input } from '../../components/Input';
+import { Heading3, headingBase, Text } from '../../styles/typography';
+import { useActiveContent } from '../../hooks/useActiveContent';
+import { useEnergy } from '../../hooks/useEnergy';
 
 const Card = styled.div`
   border-radius: 1rem;
@@ -67,7 +67,7 @@ const SubmitButton = styled(Button)`
 `;
 
 const ButtonText = styled(Heading3)`
-  font-family: "Lilita One";
+  font-family: 'Lilita One';
 `;
 
 export const TextPost = () => {
@@ -83,19 +83,19 @@ export const TextPost = () => {
   return (
     <Container>
       <InfoCard>
-        <EnergyIcon type="flat" w={24} h={32} />
+        <EnergyIcon type='flat' w={24} h={32} />
         <Text>
           Text posts are by far the most energy efficient type of content!
         </Text>
       </InfoCard>
       <Card>
         <form onSubmit={handleSubmit}>
-          <InputTitle type="text" placeholder="Title for the post" />
+          <InputTitle type='text' placeholder='Title for the post' />
           <Line />
-          <InputContent type="text" placeholder="What's on your mind?" />
-          <SubmitButton type="submit">
+          <InputContent type='text' placeholder="What's on your mind?" />
+          <SubmitButton type='submit'>
             <ButtonText $dark={true}>Post</ButtonText>
-            <EnergyIcon type="black" />
+            <EnergyIcon type='black' />
           </SubmitButton>
         </form>
       </Card>
