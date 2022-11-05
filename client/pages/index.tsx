@@ -10,6 +10,7 @@ const Body = styled.main`
   height: 100%;
   width: 100vw;
   padding: 1rem;
+  padding-top: 6rem;
   color: ${theme.foreground.primary};
   background-color: ${theme.background.primary};
 `;
@@ -21,7 +22,6 @@ const EnergyBarContainer = styled.div`
   left: 0;
   padding: 2rem 1rem 1.5rem 1rem;
   background-color: ${theme.background.primary};
-  box-shadow: 0 2px 4px ${theme.background.primary};
 `;
 
 const EnergyBar = styled.div`
