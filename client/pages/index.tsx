@@ -8,13 +8,26 @@ import { activeContentState } from "../recoil";
 const Body = styled.main`
   position: relative;
   height: 100%;
+  width: 100vw;
+  padding: 1rem;
   color: ${theme.foreground.primary};
   background-color: ${theme.background.primary};
 `;
 
-const Content = styled.section`
+const EnergyBarContainer = styled.div`
   width: 100vw;
-  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 2rem 1rem 1.5rem 1rem;
+  background-color: ${theme.background.primary};
+  box-shadow: 0 2px 4px ${theme.background.primary};
+`;
+
+const EnergyBar = styled.div`
+  height: 2rem;
+  border-radius: 1rem;
+  background-color: ${theme.background.secondary};
 `;
 
 export default function Home() {
@@ -30,7 +43,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Body>
-        <Content>{activeContent}</Content>
+        <EnergyBarContainer>
+          <EnergyBar />
+        </EnergyBarContainer>
+        {activeContent}
       </Body>
     </>
   );
