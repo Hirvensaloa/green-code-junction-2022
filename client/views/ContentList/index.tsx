@@ -1,14 +1,14 @@
-import Image from "next/image";
-import styled from "styled-components";
-import { useLocalStorage } from "usehooks-ts";
+import Image from 'next/image';
+import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
 
-import { BLUR_DATA_URL } from "../../constants/utils";
-import { useEnergy } from "../../hooks/useEnergy";
-import { theme } from "../../styles/theme";
-import { Heading4, Text } from "../../styles/typography";
-import { ContentType } from "../../types";
-import { decrementEnergy } from "../../utils/energy";
-import { useFetchFeed } from "./useFetchFeed";
+import { BLUR_DATA_URL } from '../../constants/utils';
+import { useEnergy } from '../../hooks/useEnergy';
+import { theme } from '../../styles/theme';
+import { Heading4, Text } from '../../styles/typography';
+import { ContentType } from '../../types';
+import { decrementEnergy } from '../../utils/energy';
+import { useFetchFeed } from './useFetchFeed';
 
 const StyledContentList = styled.div`
   display: flex;
@@ -48,39 +48,39 @@ const ContentPlaceholder = styled(Card)`
 
 export const ContentList = () => {
   const { feed, loading } = useFetchFeed();
-  const { setEnergy } = useEnergy();
+  const { setEnergy, remainingEnergy, setDisplayNoEnergy } = useEnergy();
   const [revealedIds, setRevealedIds] = useLocalStorage<string[]>(
-    "revealedIds",
+    'revealedIds',
     []
   );
 
   const getContentDisplayByType = (type: ContentType, content: string) => {
     switch (type) {
-      case "text":
+      case 'text':
         return (
           <Card>
             <Text>{content}</Text>
           </Card>
         );
-      case "image":
+      case 'image':
         return (
           <StyledImage
-            src={content || ""}
-            alt="image content"
+            src={content || ''}
+            alt='image content'
             width={360}
             height={240}
-            placeholder="blur"
+            placeholder='blur'
             blurDataURL={BLUR_DATA_URL}
             priority
           />
         );
-      case "video":
+      case 'video':
         return (
           <StyledVideo width={360} height={240} controls>
             <source src={content} />
           </StyledVideo>
         );
-      case "audio":
+      case 'audio':
         return (
           <audio controls>
             <source src={content} />
@@ -92,8 +92,13 @@ export const ContentList = () => {
   const handleRevealContent = async (id: string, cost: number) => {
     if (!revealedIds.includes(id)) {
       const energy = await decrementEnergy(cost);
-      setEnergy(energy);
-      setRevealedIds((prev: string[]) => prev.concat([id]));
+
+      if (energy === remainingEnergy) {
+        setDisplayNoEnergy(true);
+      } else {
+        setEnergy(energy);
+        setRevealedIds((prev: string[]) => prev.concat([id]));
+      }
     }
   };
 
