@@ -11,5 +11,5 @@ export const activeContentState = atom<ReactNode>({
 
 export const remainingEnergyState = atom({
   key: 'remainingEnergyState',
-  default: MAX_ENERGY_AMOUNT,
+  default: 0,
 });

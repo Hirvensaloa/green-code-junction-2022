@@ -6,6 +6,7 @@ import { EnergyIcon } from '../../components/EnergyIcon';
 import { MultilineInput, Input } from '../../components/Input';
 import { Heading3, headingBase, Text } from '../../styles/typography';
 import { useActiveContent } from '../../hooks/useActiveContent';
+import { decrementEnergy } from '../../utils/energy';
 import { useEnergy } from '../../hooks/useEnergy';
 
 const Card = styled.div`
@@ -71,12 +72,13 @@ const ButtonText = styled(Heading3)`
 `;
 
 export const TextPost = () => {
-  const { decreaseEnergy } = useEnergy();
   const { setDefaultContent } = useActiveContent();
+  const { setEnergy } = useEnergy();
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
-    decreaseEnergy(100);
+    const energy = await decrementEnergy(100);
+    setEnergy(energy);
     setDefaultContent();
   };
 

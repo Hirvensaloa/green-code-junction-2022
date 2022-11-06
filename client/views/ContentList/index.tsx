@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useLocalStorage } from 'usehooks-ts';
 
 import { BLUR_DATA_URL } from '../../constants/utils';
+import { useEnergy } from '../../hooks/useEnergy';
 import { theme } from '../../styles/theme';
 import { Heading4, Text } from '../../styles/typography';
 import { ContentType } from '../../types';
@@ -50,6 +51,7 @@ const Card = styled.div<{ isHiddenContent?: boolean }>`
 
 export const ContentList = () => {
   const { feed, loading } = useFetchFeed();
+  const { setEnergy } = useEnergy();
   const [revealedIds, setRevealedIds] = useLocalStorage<string[]>(
     'revealedIds',
     []
@@ -82,8 +84,9 @@ export const ContentList = () => {
     }
   };
 
-  const handleRevealContent = (id: string, cost: number) => {
-    decrementEnergy(cost);
+  const handleRevealContent = async (id: string, cost: number) => {
+    const energy = await decrementEnergy(cost);
+    setEnergy(energy);
     setRevealedIds((prev: string[]) => prev.concat([id]));
   };
 

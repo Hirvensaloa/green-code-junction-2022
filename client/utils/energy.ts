@@ -9,10 +9,14 @@ export const decrementEnergy = async (amount: number) => {
 
   const headers = new Headers();
   headers.append('actionenergy', rounded.toString());
-  const response = await fetch(
-    'http://localhost:7777/api/user/decrease/energy',
-    { headers, method: 'POST' }
-  );
+  await fetch('http://localhost:7777/api/user/decrease/energy', {
+    headers,
+    method: 'POST',
+  });
+
+  const energy = await fetchEnergy();
+
+  return energy;
 };
 
 export const fetchEnergy = async () => {

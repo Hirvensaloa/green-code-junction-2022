@@ -1,1 +1,1 @@
-export const MAX_ENERGY_AMOUNT = 0;
+export const MAX_ENERGY_AMOUNT = 1000;
