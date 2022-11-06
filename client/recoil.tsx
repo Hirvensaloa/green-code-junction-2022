@@ -17,8 +17,3 @@ export const displayNoEnergyState = atom({
   key: "displayNoEnergyState",
   default: false,
 });
-
-export const noAnimationsState = atom({
-  key: "noAnimationsState",
-  default: false,
-});
