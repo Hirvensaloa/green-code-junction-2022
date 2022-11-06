@@ -45,6 +45,10 @@ const SubmitButton = styled(Button)`
 
 const ButtonText = styled(Heading3)``;
 
+const EnergyIconGroup = styled.div`
+  display: flex;
+`;
+
 export const VideoPost = () => {
   const { title, setTitle, file, setFile, loading, error, uploadFile } =
     useUploadFile();
@@ -52,11 +56,13 @@ export const VideoPost = () => {
   return (
     <Container>
       <InfoCard>
-        <EnergyIcon type='flat' w={24} h={32} />
-        <EnergyIcon type='flat' w={24} h={32} />
-        <EnergyIcon type='flat' w={24} h={32} />
-        <EnergyIcon type='flat' w={24} h={32} />
-        <EnergyIcon type='flat' w={24} h={32} />
+        <EnergyIconGroup>
+          <EnergyIcon type='flat' w={24} h={32} />
+          <EnergyIcon type='flat' w={24} h={32} />
+          <EnergyIcon type='flat' w={24} h={32} />
+          <EnergyIcon type='flat' w={24} h={32} />
+          <EnergyIcon type='flat' w={24} h={32} />
+        </EnergyIconGroup>
 
         <Text>Video very energy hungry! Yum yum yum yum yum</Text>
       </InfoCard>
@@ -66,7 +72,7 @@ export const VideoPost = () => {
           type='text'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="What's on your mind son?"
+          placeholder="What's on your mind?"
         />
         <SubmitButton
           disabled={!file || !title}

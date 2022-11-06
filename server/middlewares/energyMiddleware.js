@@ -18,17 +18,18 @@ const energyMiddleware = async ({ request, response, user }, next) => {
   const energyValue = await getEnergy(user.id);
   const actionEnergy = Number(request.headers.get('actionenergy'))
     ? Number(request.headers.get('actionenergy'))
-    : 1000;
+    : 0;
   if (energyValue < actionEnergy) {
     response.status = 403;
     response.body = 'Not enough energy';
+    response.headers.set('energy', energyValue);
     return;
   } else {
     const newEnergy = energyValue - actionEnergy;
     await updateEnergy(user.id, newEnergy);
     response.headers.set('energy', newEnergy);
-    await next();
   }
+  await next();
 };
 
 export { energyMiddleware };

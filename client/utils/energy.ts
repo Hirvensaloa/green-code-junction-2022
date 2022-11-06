@@ -4,15 +4,21 @@ export const calculateEnergy = (filesize: number) => {
   return Math.round(amount);
 };
 
-export const decreaseEnergy = async (amount: number) => {
+export const decrementEnergy = async (amount: number) => {
   const rounded = Math.round(amount);
 
   const headers = new Headers();
   headers.append('actionenergy', rounded.toString());
   const response = await fetch(
     'http://localhost:7777/api/user/decrease/energy',
-    { headers }
+    { headers, method: 'POST' }
   );
+};
 
-  console.log(response);
+export const fetchEnergy = async () => {
+  const response = await fetch('http://localhost:7777/api/user/energy');
+
+  const energy = await response.json();
+
+  return energy || 0;
 };

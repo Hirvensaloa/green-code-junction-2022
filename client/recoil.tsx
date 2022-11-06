@@ -1,15 +1,15 @@
-import { ReactNode } from "react";
-import { atom } from "recoil";
+import { ReactNode } from 'react';
+import { atom } from 'recoil';
 
-import { ContentList } from "./views/ContentList";
-import { MAX_ENERGY_AMOUNT } from "./constants/energy";
+import { ContentList } from './views/ContentList';
+import { MAX_ENERGY_AMOUNT } from './constants/energy';
 
 export const activeContentState = atom<ReactNode>({
-  key: "activeContentState",
+  key: 'activeContentState',
   default: <ContentList />,
 });
 
 export const remainingEnergyState = atom({
-  key: "remainingEnergyState",
+  key: 'remainingEnergyState',
   default: MAX_ENERGY_AMOUNT,
 });

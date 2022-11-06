@@ -45,6 +45,10 @@ const SubmitButton = styled(Button)`
 
 const ButtonText = styled(Heading3)``;
 
+const EnergyIconGroup = styled.div`
+  display: flex;
+`;
+
 export const ImagePost = () => {
   const { title, setTitle, file, setFile, loading, error, uploadFile } =
     useUploadFile();
@@ -52,9 +56,11 @@ export const ImagePost = () => {
   return (
     <Container>
       <InfoCard>
-        <EnergyIcon type='flat' w={24} h={32} />
-        <EnergyIcon type='flat' w={24} h={32} />
-        <EnergyIcon type='flat' w={24} h={32} />
+        <EnergyIconGroup>
+          <EnergyIcon type='flat' w={24} h={32} />
+          <EnergyIcon type='flat' w={24} h={32} />
+          <EnergyIcon type='flat' w={24} h={32} />
+        </EnergyIconGroup>
         <Text>
           Images tell a thousand words, but they cost a lot of energy compared
           to text!
@@ -66,7 +72,7 @@ export const ImagePost = () => {
           type='text'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="What's on your mind son?"
+          placeholder="What's on your mind?"
         />
         <SubmitButton
           disabled={!file || !title}

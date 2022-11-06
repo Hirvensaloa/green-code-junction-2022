@@ -1,11 +1,13 @@
-import Image from "next/image";
-import styled from "styled-components";
-import { useLocalStorage } from "usehooks-ts";
+import Image from 'next/image';
+import styled from 'styled-components';
+import { useLocalStorage } from 'usehooks-ts';
 
-import { theme } from "../../styles/theme";
-import { Heading4, Text } from "../../styles/typography";
-import { ContentType } from "../../types";
-import { useFetchFeed } from "./useFetchFeed";
+import { BLUR_DATA_URL } from '../../constants/utils';
+import { theme } from '../../styles/theme';
+import { Heading4, Text } from '../../styles/typography';
+import { ContentType } from '../../types';
+import { decrementEnergy } from '../../utils/energy';
+import { useFetchFeed } from './useFetchFeed';
 
 const StyledContentList = styled.div`
   display: flex;
@@ -48,31 +50,30 @@ const Card = styled.div<{ isHiddenContent?: boolean }>`
 
 export const ContentList = () => {
   const { feed, loading } = useFetchFeed();
-  const { decreaseEnergy } = useEnergy();
   const [revealedIds, setRevealedIds] = useLocalStorage<string[]>(
-    "revealedIds",
+    'revealedIds',
     []
   );
 
   const getContentDisplayByType = (type: ContentType, content: string) => {
     switch (type) {
-      case "text":
+      case 'text':
         return <Text>{content}</Text>;
-      case "image":
+      case 'image':
         return (
           <StyledImage
-            src={content || ""}
-            alt="image content"
+            src={content || ''}
+            alt='image content'
             width={160}
             height={112}
-            placeholder="blur"
+            placeholder='blur'
             blurDataURL={BLUR_DATA_URL}
             priority
           />
         );
-      case "video":
+      case 'video':
         return <video src={content} />;
-      case "audio":
+      case 'audio':
         return (
           <audio controls>
             <source src={content} />
@@ -82,7 +83,7 @@ export const ContentList = () => {
   };
 
   const handleRevealContent = (id: string, cost: number) => {
-    decreaseEnergy(cost);
+    decrementEnergy(cost);
     setRevealedIds((prev: string[]) => prev.concat([id]));
   };
 
