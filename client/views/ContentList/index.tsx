@@ -25,28 +25,25 @@ const Title = styled(Heading4)`
 
 const StyledImage = styled(Image)`
   object-fit: cover;
+  border-radius: 1rem;
 `;
 
-const ContentPlaceholder = styled.div`
-  width: 10rem;
-  height: 7rem;
+const StyledVideo = styled.video`
+  border-radius: 1rem;
+  background-color: ${theme.background.secondary};
 `;
 
-const ContentArea = styled.section`
-  display: flex;
-  justify-content: end;
-  > img {
-    border-radius: 1rem;
-  }
-`;
-
-const Card = styled.div<{ isHiddenContent?: boolean }>`
+const Card = styled.div`
   border-radius: 1rem;
   padding: 1rem 1.5rem;
-  background-color: ${(p) =>
-    p.isHiddenContent
-      ? `${theme.accent.energyYellow}33`
-      : theme.background.secondary};
+  background-color: ${theme.background.secondary};
+`;
+
+const ContentPlaceholder = styled(Card)`
+  display: flex;
+  width: 100%;
+  height: 12rem;
+  background-color: ${theme.accent.energyYellow}33;
 `;
 
 export const ContentList = () => {
@@ -60,14 +57,18 @@ export const ContentList = () => {
   const getContentDisplayByType = (type: ContentType, content: string) => {
     switch (type) {
       case "text":
-        return <Text>{content}</Text>;
+        return (
+          <Card>
+            <Text>{content}</Text>
+          </Card>
+        );
       case "image":
         return (
           <StyledImage
             src={content || ""}
             alt="image content"
-            width={160}
-            height={112}
+            width={360}
+            height={240}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             priority
@@ -75,9 +76,9 @@ export const ContentList = () => {
         );
       case "video":
         return (
-          <video width={160} height={112} controls>
+          <StyledVideo width={360} height={240} controls>
             <source src={content} />
-          </video>
+          </StyledVideo>
         );
       case "audio":
         return (
@@ -105,18 +106,13 @@ export const ContentList = () => {
           return (
             <div key={id}>
               <Title>{title}</Title>
-              <Card
-                isHiddenContent={isHiddenContent}
-                onClick={() => handleRevealContent(id, cost)}
-              >
-                <ContentArea>
-                  {isHiddenContent ? (
-                    <ContentPlaceholder>Reveal me</ContentPlaceholder>
-                  ) : (
-                    getContentDisplayByType(type, content)
-                  )}
-                </ContentArea>
-              </Card>
+              {isHiddenContent ? (
+                <ContentPlaceholder
+                  onClick={() => handleRevealContent(id, cost)}
+                ></ContentPlaceholder>
+              ) : (
+                getContentDisplayByType(type, content)
+              )}
             </div>
           );
         })}
