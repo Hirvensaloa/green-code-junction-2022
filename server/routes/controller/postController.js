@@ -1,5 +1,10 @@
-import { addPost, getPost, listPosts } from '../../service/postService.js';
-import { listAttachments } from '../../service/uploadService.js';
+import {
+  addPost,
+  getPost,
+  listPosts,
+  likePost,
+} from "../../service/postService.js";
+import { listAttachments } from "../../service/uploadService.js";
 
 const fetchPost = async ({ response, params }) => {
   const post = getPost(params.id);
@@ -29,7 +34,7 @@ const fetchPostList = async ({ response }) => {
         type: post.attachment_type,
       });
     } else {
-      contents.push({ ...post, type: 'text' });
+      contents.push({ ...post, type: "text" });
     }
   }
 
@@ -37,19 +42,31 @@ const fetchPostList = async ({ response }) => {
 };
 
 const uploadPost = async ({ request, response, user }) => {
-  const body = request.body({ type: 'form' });
+  const body = request.body({ type: "form" });
   const params = await body.value;
 
-  const title = params.get('title');
-  const content = params.get('content');
+  const title = params.get("title");
+  const content = params.get("content");
 
   if (title && content) {
     await addPost(title, content, user.id);
 
-    response.redirect('/');
+    response.redirect("/");
   } else {
     response.status = 400;
   }
+};
+
+const votePost = async ({ request, response }) => {
+  const body = request.body({ type: "form" });
+  const params = await body.value;
+
+  const id = params.get("id");
+  const like = params.get("like");
+
+  await likePost(id, like);
+
+  response.redirect("/");
 };
 
 export { fetchPost, fetchPostList, uploadPost };

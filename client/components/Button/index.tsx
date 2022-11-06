@@ -1,7 +1,8 @@
 import { theme } from "../../styles/theme";
 import styled from "styled-components";
 import Image from "next/image";
-import { FC, useState } from "react";
+import { FC } from "react";
+import { useLike } from "../../hooks/useLike";
 
 const Button = styled.button`
   all: unset;
@@ -9,7 +10,7 @@ const Button = styled.button`
 
 interface objectScore {
   score: number;
-  setVote: (score: number) => void;
+  setVote: () => void;
 }
 
 const ButtonHolderStyle = styled.div`
@@ -32,21 +33,18 @@ const StyledDownVote = styled(Button)<{ vote: number }>`
 `;
 
 const ButtonHolder = () => {
-  const [score, setScore] = useState(0);
+  const { score, setUpVote, setDownVote } = useLike();
   return (
     <ButtonHolderStyle>
-      <UpVoteButton score={score} setVote={setScore} />
-      <DownVoteButton score={score} setVote={setScore} />
+      <UpVoteButton score={score} setVote={setUpVote} />
+      <DownVoteButton score={score} setVote={setDownVote} />
     </ButtonHolderStyle>
   );
 };
 
 const UpVoteButton: FC<objectScore> = ({ score, setVote }) => {
   return (
-    <StyledUpVote
-      vote={score}
-      onClick={() => (score < 1 ? setVote(1) : setVote(0))}
-    >
+    <StyledUpVote vote={score} onClick={() => setVote()}>
       <Image src="/upvote.svg" alt="upvote" width="32" height="32" />
     </StyledUpVote>
   );
@@ -54,10 +52,7 @@ const UpVoteButton: FC<objectScore> = ({ score, setVote }) => {
 
 const DownVoteButton: FC<objectScore> = ({ score, setVote }) => {
   return (
-    <StyledDownVote
-      vote={score}
-      onClick={() => (score > -1 ? setVote(-1) : setVote(0))}
-    >
+    <StyledDownVote vote={score} onClick={() => setVote()}>
       <Image src="/downvote.svg" alt="downvote" width="32" height="32" />
     </StyledDownVote>
   );
