@@ -18,25 +18,31 @@ const contentActions = [
   {
     contentType: "text",
     contentView: <TextPost />,
-    icon: <Image src="/text.svg" alt="text" width="16" height="16" />,
+    icon: <Image src="/text.png" alt="text" width="16" height="16" priority />,
     cost: 1,
   },
   {
     contentType: "image",
     contentView: <ImagePost />,
-    icon: <Image src="/image.svg" alt="image" width="16" height="16" />,
+    icon: (
+      <Image src="/image.png" alt="image" width="16" height="16" priority />
+    ),
     cost: 2,
   },
   {
     contentType: "video",
     contentView: <VideoPost />,
-    icon: <Image src="/video.svg" alt="video" width="16" height="16" />,
+    icon: (
+      <Image src="/video.png" alt="video" width="16" height="16" priority />
+    ),
     cost: 4,
   },
   {
     contentType: "sound",
     contentView: <AudioPost />,
-    icon: <Image src="/sound.svg" alt="sound" width="16" height="16" />,
+    icon: (
+      <Image src="/sound.png" alt="sound" width="16" height="16" priority />
+    ),
     cost: 2,
   },
 ];
@@ -121,9 +127,9 @@ export const CreateContentOpener = () => {
           onClick={handleMenuClick}
         >
           {menuItemClicked ? (
-            <Image src="/home.svg" alt="home" width="32" height="32" />
+            <Image src="/home.png" alt="home" width="32" height="32" priority />
           ) : (
-            <Image src="/add.svg" alt="add" width="32" height="32" />
+            <Image src="/add.png" alt="add" width="32" height="32" priority />
           )}
         </MenuOpenerButton>
       </animated.div>
