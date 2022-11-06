@@ -5,14 +5,14 @@ import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 
 import { router } from './routes/index.js';
 import { authMiddleware } from './middlewares/authMiddleware.js';
-import { scoreMiddleware } from './middlewares/scoreMiddleware.js';
+import { energyMiddleware } from './middlewares/energyMiddleware.js';
 
 const app = new Application();
 app.use(Session.initMiddleware());
 
 app.use(oakCors());
 app.use(authMiddleware);
-// app.use(scoreMiddleware);
+app.use(energyMiddleware);
 app.use(router.routes());
 
 app.listen({ port: 7777 });

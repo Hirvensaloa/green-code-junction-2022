@@ -21,22 +21,25 @@ const getUser = async (username) => {
   return response.rows[0];
 };
 
-const getUserScore = async (userId) => {
+const getUserEnergy = async (userId) => {
   const response = await executeQuery(
-    'SELECT score FROM users WHERE user_id = $userId',
+    'SELECT amount FROM energy_bar WHERE user_id = $userId',
     {
       userId,
     }
   );
 
-  return response.rows[0];
+  return response.rows[0].amount;
 };
 
-const updateUserScore = async (userId, score) => {
-  await executeQuery('UPDATE users SET amount = $1 WHERE user_id = $2', {
-    $1: score,
-    $2: userId,
-  });
+const updateUserScore = async (userId, amount) => {
+  await executeQuery(
+    'UPDATE energy_bar SET amount = $amount WHERE user_id = $userId',
+    {
+      amount,
+      userId,
+    }
+  );
 };
 
-export { addUser, getUser, getUserScore, updateUserScore };
+export { addUser, getUser, getUserEnergy, updateUserScore };

@@ -6,7 +6,6 @@ const processLogin = async ({ request, response, state }) => {
   const params = await body.value;
 
   const user = await getUser(params.get('username'));
-  console.log(user);
   if (!user) {
     response.status = 401;
     return;

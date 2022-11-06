@@ -1,21 +1,14 @@
-// calculate score of a given upload action
-// The score of an upload is based on the size of the file
+// calculate amount of a given upload action
+// The amount of an upload is based on the size of the file
 
-import { getUserScore } from '../service/userService.js';
+import { getUserEnergy, updateUserScore } from '../service/userService.js';
 
-const calculateScore = (filesize) => {
-  const factor = 0.000005;
-  const score = filesize * factor;
-  return score;
+const getEnergy = async (userId) => {
+  return await getUserEnergy(userId);
 };
 
-const getScore = async (userId) => {
-  const user = await getUserScore(userId);
-  return user.score;
+const updateEnergy = async (userId, amount) => {
+  await updateUserScore(userId, amount);
 };
 
-const updateScore = async (userId, score) => {
-  await updateUserScore(userId, score);
-};
-
-export { calculateScore, getScore, updateScore };
+export { getEnergy, updateEnergy };
