@@ -78,7 +78,7 @@ const ButtonWrapper = styled.div`
   right: 1.5rem;
 `;
 
-const ContentMenu = styled.div`
+const ContentMenu = styled(animated.div)`
   display: flex;
   flex-direction: row-reverse;
   gap: 1rem;
@@ -100,7 +100,14 @@ export const CreateContentOpener = () => {
   const menuButtonSpring = useSpring({
     transform: menuItemClicked
       ? "translate3d(-70vw, 0, 0)"
-      : "translate3d(0, 0, 0)",
+      : "translate3d(0vw, 0, 0)",
+  });
+
+  const menuItemsSpring = useSpring({
+    opacity: contentMenuOpen ? 1 : 0,
+    transform: contentMenuOpen
+      ? "translate3d(0rem, 0, 0)"
+      : "translate3d(1.5rem, 0, 0)",
   });
 
   const handleMenuClick = () => {
@@ -133,20 +140,16 @@ export const CreateContentOpener = () => {
           )}
         </MenuOpenerButton>
       </animated.div>
-      <ContentMenu>
-        {contentMenuOpen && (
-          <>
-            {contentActions.map(({ contentType, contentView, icon, cost }) => (
-              <ContentButton
-                key={contentType}
-                onClick={() => handleMenuItemClick(contentView)}
-              >
-                {icon}
-                <EnergyCostIndicator amount={cost} />
-              </ContentButton>
-            ))}
-          </>
-        )}
+      <ContentMenu style={menuItemsSpring}>
+        {contentActions.map(({ contentType, contentView, icon, cost }) => (
+          <ContentButton
+            key={contentType}
+            onClick={() => handleMenuItemClick(contentView)}
+          >
+            {icon}
+            <EnergyCostIndicator amount={cost} />
+          </ContentButton>
+        ))}
       </ContentMenu>
     </ButtonWrapper>
   );

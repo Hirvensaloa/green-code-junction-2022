@@ -1,19 +1,24 @@
-import { ReactNode } from 'react';
-import { atom } from 'recoil';
+import { ReactNode } from "react";
+import { atom } from "recoil";
 
-import { ContentList } from './views/ContentList';
+import { ContentList } from "./views/ContentList";
 
 export const activeContentState = atom<ReactNode>({
-  key: 'activeContentState',
+  key: "activeContentState",
   default: <ContentList />,
 });
 
 export const remainingEnergyState = atom({
-  key: 'remainingEnergyState',
+  key: "remainingEnergyState",
   default: 0,
 });
 
 export const displayNoEnergyState = atom({
-  key: 'displayNoEnergyState',
+  key: "displayNoEnergyState",
+  default: false,
+});
+
+export const noAnimationsState = atom({
+  key: "noAnimationsState",
   default: false,
 });
