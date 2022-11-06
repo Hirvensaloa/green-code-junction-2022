@@ -1,8 +1,13 @@
+import Image from "next/image";
 import styled from "styled-components";
-import { CreateContentOpener } from "../../components/CreateContent";
+import { useLocalStorage } from "usehooks-ts";
 
+import { BLUR_DATA_URL } from "../../constants/utils";
+import { useEnergy } from "../../hooks/useEnergy";
 import { theme } from "../../styles/theme";
-import { Text } from "../../styles/typography";
+import { Heading4, Text } from "../../styles/typography";
+import { ContentType } from "../../types";
+import { useFetchFeed } from "./useFetchFeed";
 
 const StyledContentList = styled.div`
   display: flex;
@@ -10,28 +15,102 @@ const StyledContentList = styled.div`
   gap: 4rem;
 `;
 
-const Card = styled.div`
+const Title = styled(Heading4)`
+  min-width: 100%;
+  line-height: 2rem;
+  padding: 0.5rem 1rem;
   border-radius: 1rem;
-  padding: 1rem;
-  background-color: ${theme.background.secondary};
 `;
 
-export const ContentList = () => (
-  <>
+const StyledImage = styled(Image)`
+  object-fit: cover;
+`;
+
+const ContentPlaceholder = styled.div`
+  width: 10rem;
+  height: 7rem;
+`;
+
+const ContentArea = styled.section`
+  display: flex;
+  justify-content: end;
+  > img {
+    border-radius: 1rem;
+  }
+`;
+
+const Card = styled.div<{ isHiddenContent?: boolean }>`
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: ${(p) =>
+    p.isHiddenContent
+      ? `${theme.accent.energyYellow}33`
+      : theme.background.secondary};
+`;
+
+export const ContentList = () => {
+  const { feed, loading } = useFetchFeed();
+  const { decreaseEnergy } = useEnergy();
+  const [revealedIds, setRevealedIds] = useLocalStorage<string[]>(
+    "revealedIds",
+    []
+  );
+
+  const getContentDisplayByType = (type: ContentType, content: string) => {
+    switch (type) {
+      case "text":
+        return <Text>{content}</Text>;
+      case "image":
+        return (
+          <StyledImage
+            src={content || ""}
+            alt="image content"
+            width={160}
+            height={112}
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+            priority
+          />
+        );
+      case "video":
+        return <video src={content} />;
+      case "audio":
+        return (
+          <audio controls>
+            <source src={content} />
+          </audio>
+        );
+    }
+  };
+
+  const handleRevealContent = (id: string, cost: number) => {
+    decreaseEnergy(cost);
+    setRevealedIds((prev: string[]) => prev.concat([id]));
+  };
+
+  return (
     <StyledContentList>
-      {[1, 2, 3, 4].map((i) => (
-        <Card key={i}>
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </Text>
-        </Card>
-      ))}
+      {!loading &&
+        feed &&
+        feed.map(({ id, title, type, score, content, cost = 100 }) => {
+          const isHiddenContent = !revealedIds.includes(id);
+          return (
+            <Card
+              key={id}
+              isHiddenContent={isHiddenContent}
+              onClick={() => handleRevealContent(id, cost)}
+            >
+              <Title>{title}</Title>
+              <ContentArea>
+                {isHiddenContent ? (
+                  <ContentPlaceholder>Reveal me</ContentPlaceholder>
+                ) : (
+                  getContentDisplayByType(type, content)
+                )}
+              </ContentArea>
+            </Card>
+          );
+        })}
     </StyledContentList>
-  </>
-);
+  );
+};

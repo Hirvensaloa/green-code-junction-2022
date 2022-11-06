@@ -3,7 +3,7 @@
 // if the user has enough score, the middleware will call next() to continue the request
 // if the user does not have enough score, the middleware will return a 403 Forbidden response
 //
-import calculateScore from "../utils/calculateScore.js";
+import { getScore, updateScore } from "../utils/calculateScore.js";
 
 const scoreMiddleware = async ({ request, response, state }, next) => {
   // if user is trying to log in or register, continue the request
