@@ -1,13 +1,20 @@
-import styled from 'styled-components';
+import {
+  FormEvent,
+  ChangeEvent,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import styled from "styled-components";
 
-import { Button } from '../../components/Button';
-import { theme } from '../../styles/theme';
-import { EnergyIcon } from '../../components/EnergyIcon';
-import { MultilineInput, Input } from '../../components/Input';
-import { Heading3, headingBase, Text } from '../../styles/typography';
-import { useActiveContent } from '../../hooks/useActiveContent';
-import { decrementEnergy } from '../../utils/energy';
-import { useEnergy } from '../../hooks/useEnergy';
+import { Button } from "../../components/Button";
+import { theme } from "../../styles/theme";
+import { EnergyIcon } from "../../components/EnergyIcon";
+import { MultilineInput, TitleInput } from "../../components/Input";
+import { ButtonText, headingBase, Text } from "../../styles/typography";
+import { useActiveContent } from "../../hooks/useActiveContent";
+import { useEnergy } from "../../hooks/useEnergy";
+import { decrementEnergy } from "../../utils/energy";
 
 const Card = styled.div`
   border-radius: 1rem;
@@ -30,17 +37,6 @@ const InfoCard = styled.div`
 const Container = styled.section`
   > :not(:last-child) {
     margin-bottom: 1rem;
-  }
-`;
-
-const InputTitle = styled(Input)`
-  ${headingBase};
-  font-size: 1.5rem;
-  width: 100%;
-  padding: 0.5rem 0;
-  ::placeholder {
-    ${headingBase}
-    opacity: 0.7;
   }
 `;
 
@@ -67,37 +63,66 @@ const SubmitButton = styled(Button)`
   background-color: ${theme.accent.electricBlue};
 `;
 
-const ButtonText = styled(Heading3)`
-  font-family: 'Lilita One';
+const StyledText = styled(ButtonText)`
+  font-size: 1.5rem;
 `;
 
 export const TextPost = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const { setDefaultContent } = useActiveContent();
   const { setEnergy } = useEnergy();
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const getChangeHandler =
+    (setter: Dispatch<SetStateAction<string>>) =>
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.currentTarget.value;
+      setter(value);
+    };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const energy = await decrementEnergy(100);
-    setEnergy(energy);
-    setDefaultContent();
+    const body = new FormData();
+    body.append("title", title);
+    body.append("content", content);
+    fetch("http://localhost:7777/api/upload/text", {
+      method: "POST",
+      body,
+    }).then(async (response) => {
+      const energy = await decrementEnergy(100);
+      setEnergy(energy);
+      setDefaultContent();
+    });
   };
 
   return (
     <Container>
       <InfoCard>
-        <EnergyIcon type='flat' w={24} h={32} />
+        <EnergyIcon type="flat" w={24} h={32} />
         <Text>
           Text posts are by far the most energy efficient type of content!
         </Text>
       </InfoCard>
       <Card>
         <form onSubmit={handleSubmit}>
-          <InputTitle type='text' placeholder='Title for the post' />
+          <TitleInput
+            value={title}
+            type="text"
+            id="title"
+            onChange={getChangeHandler(setTitle)}
+            placeholder="Give a title for your post"
+          />
           <Line />
-          <InputContent type='text' placeholder="What's on your mind?" />
-          <SubmitButton type='submit'>
-            <ButtonText $dark={true}>Post</ButtonText>
-            <EnergyIcon type='black' />
+          <InputContent
+            value={content}
+            type="text"
+            id="content"
+            onChange={getChangeHandler(setContent)}
+            placeholder="What's on your mind?"
+          />
+          <SubmitButton type="submit">
+            <StyledText $dark={true}>Post</StyledText>
+            <EnergyIcon type="black" />
           </SubmitButton>
         </form>
       </Card>

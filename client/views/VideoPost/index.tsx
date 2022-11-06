@@ -1,13 +1,13 @@
-import Image from 'next/image';
-import styled from 'styled-components';
+import Image from "next/image";
+import styled from "styled-components";
 
-import { Button } from '../../components/Button';
-import { theme } from '../../styles/theme';
-import { Heading3, Text } from '../../styles/typography';
-import FilePicker from '../../components/FilePicker';
-import { EnergyIcon } from '../../components/EnergyIcon';
-import { Input } from '../../components/Input';
-import { useUploadFile } from '../../hooks/useFileUpload';
+import { Button } from "../../components/Button";
+import { theme } from "../../styles/theme";
+import { ButtonText, Text } from "../../styles/typography";
+import FilePicker from "../../components/FilePicker";
+import { EnergyIcon } from "../../components/EnergyIcon";
+import { TitleInput } from "../../components/Input";
+import { useUploadFile } from "../../hooks/useFileUpload";
 
 const Card = styled.div`
   border-radius: 1rem;
@@ -23,7 +23,7 @@ const InfoCard = styled.div`
   background-color: ${theme.accent.energyYellow}33;
 
   > :first-child {
-    margin-right: 1rem;
+    margin-right: 2rem;
   }
 `;
 
@@ -34,6 +34,7 @@ const Container = styled.section`
 `;
 
 const SubmitButton = styled(Button)`
+  margin-top: 2rem;
   margin-left: auto;
   display: flex;
   align-items: center;
@@ -43,7 +44,9 @@ const SubmitButton = styled(Button)`
   background-color: ${theme.accent.electricBlue};
 `;
 
-const ButtonText = styled(Heading3)``;
+const StyledText = styled(ButtonText)`
+  font-size: 1.5rem;
+`;
 
 const EnergyIconGroup = styled.div`
   display: flex;
@@ -57,33 +60,32 @@ export const VideoPost = () => {
     <Container>
       <InfoCard>
         <EnergyIconGroup>
-          <EnergyIcon type='flat' w={24} h={32} />
-          <EnergyIcon type='flat' w={24} h={32} />
-          <EnergyIcon type='flat' w={24} h={32} />
-          <EnergyIcon type='flat' w={24} h={32} />
-          <EnergyIcon type='flat' w={24} h={32} />
+          <EnergyIcon type="flat" w={24} h={32} />
+          <EnergyIcon type="flat" w={24} h={32} />
+          <EnergyIcon type="flat" w={24} h={32} />
+          <EnergyIcon type="flat" w={24} h={32} />
         </EnergyIconGroup>
 
-        <Text>Video very energy hungry! Yum yum yum yum yum</Text>
+        <Text>Video big energy hungry! Yum yum yUm yum yum</Text>
       </InfoCard>
       <Card>
-        <FilePicker setFile={setFile} types={['mp4']} />
-        <Input
-          type='text'
+        <TitleInput
+          type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="What's on your mind?"
+          placeholder="Give a title for your post"
         />
+        <FilePicker setFile={setFile} types={["mp4"]} />
         <SubmitButton
           disabled={!file || !title}
           onClick={async () => await uploadFile(file, title)}
         >
-          <ButtonText $dark={true}>Post</ButtonText>
+          <StyledText $dark={true}>Post</StyledText>
           <Image
-            src='/energy_black.svg'
-            alt='energy_black'
-            width='16'
-            height='24'
+            src="/energy_black.svg"
+            alt="energy_black"
+            width="16"
+            height="24"
           />
         </SubmitButton>
       </Card>

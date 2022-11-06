@@ -42,11 +42,10 @@ const fetchPostList = async ({ response }) => {
 };
 
 const uploadPost = async ({ request, response, user }) => {
-  const body = request.body({ type: "form" });
+  const body = request.body({ type: "form-data" });
   const params = await body.value;
-
-  const title = params.get("title");
-  const content = params.get("content");
+  const data = await params.read();
+  const { title, content } = data.fields;
 
   if (title && content) {
     await addPost(title, content, user.id);

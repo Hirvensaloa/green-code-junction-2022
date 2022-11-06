@@ -1,13 +1,13 @@
-import Image from 'next/image';
-import styled from 'styled-components';
+import Image from "next/image";
+import styled from "styled-components";
 
-import { Button } from '../../components/Button';
-import { theme } from '../../styles/theme';
-import { Heading3, Text } from '../../styles/typography';
-import FilePicker from '../../components/FilePicker';
-import { EnergyIcon } from '../../components/EnergyIcon';
-import { Input } from '../../components/Input';
-import { useUploadFile } from '../../hooks/useFileUpload';
+import { Button } from "../../components/Button";
+import { theme } from "../../styles/theme";
+import { ButtonText, Text, headingBase } from "../../styles/typography";
+import FilePicker from "../../components/FilePicker";
+import { EnergyIcon } from "../../components/EnergyIcon";
+import { TitleInput } from "../../components/Input";
+import { useUploadFile } from "../../hooks/useFileUpload";
 
 const Card = styled.div`
   border-radius: 1rem;
@@ -34,6 +34,7 @@ const Container = styled.section`
 `;
 
 const SubmitButton = styled(Button)`
+  margin-top: 2rem;
   margin-left: auto;
   display: flex;
   align-items: center;
@@ -43,7 +44,9 @@ const SubmitButton = styled(Button)`
   background-color: ${theme.accent.electricBlue};
 `;
 
-const ButtonText = styled(Heading3)``;
+const StyledText = styled(ButtonText)`
+  font-size: 1.5rem;
+`;
 
 export const AudioPost = () => {
   const { title, setTitle, file, setFile, loading, error, uploadFile } =
@@ -52,27 +55,27 @@ export const AudioPost = () => {
   return (
     <Container>
       <InfoCard>
-        <EnergyIcon type='flat' w={24} h={32} />
-        <Text>After text, audio is the most energy efficient!</Text>
+        <EnergyIcon type="flat" w={24} h={32} />
+        <Text>Audio is a very energy efficient alternative to video!</Text>
       </InfoCard>
       <Card>
-        <FilePicker setFile={setFile} types={['mp3']} />
-        <Input
-          type='text'
+        <TitleInput
+          type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="What's on your mind son?"
+          placeholder="Give a title for your post"
         />
+        <FilePicker setFile={setFile} types={["mp3"]} />
         <SubmitButton
           disabled={!file || !title}
           onClick={async () => await uploadFile(file, title)}
         >
-          <ButtonText $dark={true}>Post</ButtonText>
+          <StyledText $dark={true}>Post</StyledText>
           <Image
-            src='/energy_black.svg'
-            alt='energy_black'
-            width='16'
-            height='24'
+            src="/energy_black.svg"
+            alt="energy_black"
+            width="16"
+            height="24"
           />
         </SubmitButton>
       </Card>

@@ -2,14 +2,12 @@ import styled, { css } from "styled-components";
 import { theme } from "./theme";
 
 export const headingBase = css<{ $dark?: boolean }>`
-  all: unset;
   color: ${(p) =>
     p.$dark ? theme.background.primary : theme.foreground.primary};
   font-family: "Lato", sans-serif;
 `;
 
 export const textBase = css<{ $dark?: boolean }>`
-  all: unset;
   color: ${(p) =>
     p.$dark ? theme.background.primary : theme.foreground.primary};
   font-family: "Arial", sans-serif;

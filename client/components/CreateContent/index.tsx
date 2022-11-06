@@ -1,42 +1,42 @@
-import Image from 'next/image';
-import { ReactNode, useState } from 'react';
-import styled from 'styled-components';
-import { useSetRecoilState } from 'recoil';
-import { animated, useSpring } from 'react-spring';
+import Image from "next/image";
+import { ReactNode, useState } from "react";
+import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
+import { animated, useSpring } from "react-spring";
 
-import { EnergyCostIndicator } from '../EnergyCostIndicator';
-import { Button } from '../Button';
-import { theme } from '../../styles/theme';
-import { TextPost } from '../../views/TextPost';
-import { ContentList } from '../../views/ContentList';
-import { activeContentState } from '../../recoil';
-import { ImagePost } from '../../views/ImagePost';
-import { VideoPost } from '../../views/VideoPost';
-import { AudioPost } from '../../views/AudioPost';
+import { EnergyCostIndicator } from "../EnergyCostIndicator";
+import { Button } from "../Button";
+import { theme } from "../../styles/theme";
+import { TextPost } from "../../views/TextPost";
+import { ContentList } from "../../views/ContentList";
+import { activeContentState } from "../../recoil";
+import { ImagePost } from "../../views/ImagePost";
+import { VideoPost } from "../../views/VideoPost";
+import { AudioPost } from "../../views/AudioPost";
 
 const contentActions = [
   {
-    contentType: 'text',
+    contentType: "text",
     contentView: <TextPost />,
-    icon: <Image src='/text.svg' alt='text' width='16' height='16' />,
+    icon: <Image src="/text.svg" alt="text" width="16" height="16" />,
     cost: 1,
   },
   {
-    contentType: 'image',
+    contentType: "image",
     contentView: <ImagePost />,
-    icon: <Image src='/image.svg' alt='image' width='16' height='16' />,
+    icon: <Image src="/image.svg" alt="image" width="16" height="16" />,
     cost: 2,
   },
   {
-    contentType: 'video',
+    contentType: "video",
     contentView: <VideoPost />,
-    icon: <Image src='/video.svg' alt='video' width='16' height='16' />,
+    icon: <Image src="/video.svg" alt="video" width="16" height="16" />,
     cost: 4,
   },
   {
-    contentType: 'sound',
+    contentType: "sound",
     contentView: <AudioPost />,
-    icon: <Image src='/sound.svg' alt='sound' width='16' height='16' />,
+    icon: <Image src="/sound.svg" alt="sound" width="16" height="16" />,
     cost: 2,
   },
 ];
@@ -58,7 +58,7 @@ const MenuOpenerButton = styled(BaseContentButton)<MenuButtonProps>`
   transition: transform 300ms;
   transform-origin: center;
   transform: ${(p) =>
-    p.$open ? 'rotate3d(0, 0, 1, 45deg)' : 'rotate3d(0, 0, 1, 0deg)'};
+    p.$open ? "rotate3d(0, 0, 1, 45deg)" : "rotate3d(0, 0, 1, 0deg)"};
 `;
 
 const ButtonWrapper = styled.div`
@@ -93,8 +93,8 @@ export const CreateContentOpener = () => {
 
   const menuButtonSpring = useSpring({
     transform: menuItemClicked
-      ? 'translate3d(-70vw, 0, 0)'
-      : 'translate3d(0, 0, 0)',
+      ? "translate3d(-70vw, 0, 0)"
+      : "translate3d(0, 0, 0)",
   });
 
   const handleMenuClick = () => {
@@ -121,9 +121,9 @@ export const CreateContentOpener = () => {
           onClick={handleMenuClick}
         >
           {menuItemClicked ? (
-            <Image src='/home.svg' alt='home' width='32' height='32' />
+            <Image src="/home.svg" alt="home" width="32" height="32" />
           ) : (
-            <Image src='/add.svg' alt='add' width='32' height='32' />
+            <Image src="/add.svg" alt="add" width="32" height="32" />
           )}
         </MenuOpenerButton>
       </animated.div>

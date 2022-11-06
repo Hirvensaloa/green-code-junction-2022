@@ -1,25 +1,25 @@
-import Image from 'next/image';
-import styled from 'styled-components';
-import { useLocalStorage } from 'usehooks-ts';
+import Image from "next/image";
+import styled from "styled-components";
+import { useLocalStorage } from "usehooks-ts";
 
-import { BLUR_DATA_URL } from '../../constants/utils';
-import { useEnergy } from '../../hooks/useEnergy';
-import { theme } from '../../styles/theme';
-import { Heading4, Text } from '../../styles/typography';
-import { ContentType } from '../../types';
-import { decrementEnergy } from '../../utils/energy';
-import { useFetchFeed } from './useFetchFeed';
+import { BLUR_DATA_URL } from "../../constants/utils";
+import { useEnergy } from "../../hooks/useEnergy";
+import { theme } from "../../styles/theme";
+import { Heading4, Text } from "../../styles/typography";
+import { ContentType } from "../../types";
+import { decrementEnergy } from "../../utils/energy";
+import { useFetchFeed } from "./useFetchFeed";
 
 const StyledContentList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 2rem;
 `;
 
 const Title = styled(Heading4)`
   min-width: 100%;
   line-height: 2rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0;
   border-radius: 1rem;
 `;
 
@@ -53,29 +53,33 @@ export const ContentList = () => {
   const { feed, loading } = useFetchFeed();
   const { setEnergy } = useEnergy();
   const [revealedIds, setRevealedIds] = useLocalStorage<string[]>(
-    'revealedIds',
+    "revealedIds",
     []
   );
 
   const getContentDisplayByType = (type: ContentType, content: string) => {
     switch (type) {
-      case 'text':
+      case "text":
         return <Text>{content}</Text>;
-      case 'image':
+      case "image":
         return (
           <StyledImage
-            src={content || ''}
-            alt='image content'
+            src={content || ""}
+            alt="image content"
             width={160}
             height={112}
-            placeholder='blur'
+            placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
             priority
           />
         );
-      case 'video':
-        return <video src={content} />;
-      case 'audio':
+      case "video":
+        return (
+          <video width={160} height={112} controls>
+            <source src={content} />
+          </video>
+        );
+      case "audio":
         return (
           <audio controls>
             <source src={content} />
@@ -85,9 +89,11 @@ export const ContentList = () => {
   };
 
   const handleRevealContent = async (id: string, cost: number) => {
-    const energy = await decrementEnergy(cost);
-    setEnergy(energy);
-    setRevealedIds((prev: string[]) => prev.concat([id]));
+    if (!revealedIds.includes(id)) {
+      const energy = await decrementEnergy(cost);
+      setEnergy(energy);
+      setRevealedIds((prev: string[]) => prev.concat([id]));
+    }
   };
 
   return (
@@ -97,20 +103,21 @@ export const ContentList = () => {
         feed.map(({ id, title, type, score, content, cost = 100 }) => {
           const isHiddenContent = !revealedIds.includes(id);
           return (
-            <Card
-              key={id}
-              isHiddenContent={isHiddenContent}
-              onClick={() => handleRevealContent(id, cost)}
-            >
+            <div key={id}>
               <Title>{title}</Title>
-              <ContentArea>
-                {isHiddenContent ? (
-                  <ContentPlaceholder>Reveal me</ContentPlaceholder>
-                ) : (
-                  getContentDisplayByType(type, content)
-                )}
-              </ContentArea>
-            </Card>
+              <Card
+                isHiddenContent={isHiddenContent}
+                onClick={() => handleRevealContent(id, cost)}
+              >
+                <ContentArea>
+                  {isHiddenContent ? (
+                    <ContentPlaceholder>Reveal me</ContentPlaceholder>
+                  ) : (
+                    getContentDisplayByType(type, content)
+                  )}
+                </ContentArea>
+              </Card>
+            </div>
           );
         })}
     </StyledContentList>
