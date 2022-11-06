@@ -73,7 +73,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row-reverse;
   align-items: baseline;
-  gap: 1rem;
+  gap: 0.75rem;
   bottom: 1rem;
   right: 1.5rem;
 `;
@@ -81,7 +81,7 @@ const ButtonWrapper = styled.div`
 const ContentMenu = styled(animated.div)`
   display: flex;
   flex-direction: row-reverse;
-  gap: 1rem;
+  gap: 0.75rem;
 `;
 
 const ContentButton = styled(BaseContentButton)`

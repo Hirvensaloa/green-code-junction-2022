@@ -75,7 +75,7 @@ export const TextPost = () => {
 
   const getChangeHandler =
     (setter: Dispatch<SetStateAction<string>>) =>
-    (e: ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const value = e.currentTarget.value;
       setter(value);
     };
