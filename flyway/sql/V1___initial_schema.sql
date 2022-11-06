@@ -3,10 +3,9 @@ CREATE TABLE users (
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(), 
 );
 
-INSERT INTO users (id, username, password) VALUES ('c5443fae-3a22-4dbb-82f0-136b8f277435', 'admin', 'admin');
 
 CREATE TABLE attachment (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -34,3 +33,6 @@ CREATE TABLE energy_bar (
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+INSERT INTO users (id, username, password) VALUES ('c5443fae-3a22-4dbb-82f0-136b8f277435', 'admin', 'admin');
+INSERT INTO energy_bar (user_id) VALUES ('c5443fae-3a22-4dbb-82f0-136b8f277435');

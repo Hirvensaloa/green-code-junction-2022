@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { calculateEnergy } from '../utils/energy';
 
 export const useUploadFile = () => {
   const [title, setTitle] = useState<string>('');
@@ -12,8 +13,14 @@ export const useUploadFile = () => {
     body.append('name', title);
     body.append('contentType', file?.type || '');
 
+    const energy = calculateEnergy(file?.size || 0);
+
+    const headers = new Headers();
+    headers.append('actionenergy', energy.toString());
+
     const response = await fetch('http://localhost:7777/api/upload/file', {
       method: 'POST',
+      headers,
       body,
     });
 
