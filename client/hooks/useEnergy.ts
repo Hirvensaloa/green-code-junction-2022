@@ -1,11 +1,14 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { remainingEnergyState } from '../recoil';
+import { remainingEnergyState, displayNoEnergyState } from '../recoil';
 import { fetchEnergy } from '../utils/energy';
 
 export const useEnergy = () => {
   const [remainingEnergy, setRemainingEnergy] =
     useRecoilState(remainingEnergyState);
+
+  const [displayNoEnergy, setDisplayNoEnergy] =
+    useRecoilState(displayNoEnergyState);
 
   useEffect(() => {
     fetchEnergy().then((e) => setRemainingEnergy(e));
@@ -19,5 +22,7 @@ export const useEnergy = () => {
   return {
     remainingEnergy,
     setEnergy,
+    displayNoEnergy,
+    setDisplayNoEnergy,
   };
 };
